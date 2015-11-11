@@ -12,4 +12,8 @@ function [Fk1, Fk2] = spring_forces(A,B,C)
 	X = rref(A);
 	Fk1 = -X(1,3);
 	Fk2 = X(2,3);
+
+	% Force Required to lift the shaft for maintence
+	force_required = check_spring_condition(A,B,C, Fk1, Fk2)
+
 end
