@@ -1,8 +1,13 @@
-% Function that Plots Singularity Functions
+%% Function Description: plot_sf
+%
+% Plots the Shear, Moment, Torque and M/I diagrams.
+% Parameters - singularity functions for T,V,M and M/I; x is the position vector
+
+%%% Code
+
 function plot_sf = plot_sf(T,V,M,M_over_I,x)
 	% Setting up
 	L = 40; % cm, shaft length
-	% x = linspace(0,L,1000);
 
 	% Shear Diagram
 	figure(1)

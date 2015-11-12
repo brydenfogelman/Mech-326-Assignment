@@ -1,3 +1,18 @@
+%% Function Description: fatigue_stress_concentration
+%
+% Finds Kfs and Kf using the Neuber Equation.
+%
+% Parameters:
+% 
+% * Kt (or Kts) - theoretical stress concentration factor
+% * r - fillet radius in mm
+% * Sut - ultimate tensile strength of the material in MPa
+% * bending - 0 for torsion (Kfs), 1 for bending (Kf)
+%
+% Returns - the fatigue stress concentration factor (in bending or in shear) 
+
+%%% Code
+
 function K = fatigue_stress_concentration(Kt,r,Sut,bending)
 	Sut = Sut * 145.038/1000; % kpsi
 	% r, notch radius

@@ -1,0 +1,422 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Description</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-12"><meta name="DC.source" content="bottom_shaft_analysis.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Description</h1><!--introduction--><p>This script will analyze the shaft EFGJ and calculates/displays the following:</p><div><ul><li>Shear, Torque and Moment Diagrams</li><li>Critical Points and Stresses</li><li>Fatigue Safety Factors (Gerber, Goodman and First Cycle Yield)</li><li>Cost and mass for Performance Metric</li></ul></div><p>Several helper functions are called to help calculate these values. The functions used are listed below (see section in Appendix for more detail):</p><div><ul><li>find_sf, calculates the singularity functions and represents them as vectors</li><li>plot_sf, plots the singularity functions</li><li>fatigue_stress_concentration, calculates Kf and Kfs based on Kt, Kts and uses the Neuber equation and constant in the evaulation</li><li>fatigueLife, calculates the Gerber, Goodman and first cycle yield safety factors</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Setup</a></li><li><a href="#2">Singularity Functions</a></li><li><a href="#3">Critcal Points and Fatigue Introduction</a></li><li><a href="#4">Critcal Points and Fatigue</a></li><li><a href="#5">Performance Metric</a></li></ul></div><h2>Setup<a name="1"></a></h2><pre class="codeinput"><span class="comment">% Define location of A,B,C in cm</span>
+<span class="comment">% Found based on maintence condition</span>
+A = 7; B = 11; C = 38;
+
+<span class="comment">% Given</span>
+k = 37.8 * 1000; <span class="comment">% N/m</span>
+L = 40; <span class="comment">% shaft length</span>
+d1 = 20/1000; <span class="comment">% m</span>
+d2 = 30/1000; <span class="comment">% m</span>
+bearing_width = 14/1000; <span class="comment">% m</span>
+g = 9.81;
+
+<span class="comment">% Creating position vector</span>
+n_step = 1000;
+x = linspace(0,L,n_step);
+vector_conv = L/n_step;
+</pre><h2>Singularity Functions<a name="2"></a></h2><pre class="codeinput"><span class="comment">% Finding the reactions due to the radial force of the pulley</span>
+Fr = 500; <span class="comment">% N</span>
+[T,V,M,M_over_I] = find_sf(Fr,A,B,C,x); <span class="comment">% Function to find the singularity functions as vectors</span>
+
+<span class="comment">% Optional: Plot singularity functions</span>
+<span class="comment">% plot_sf(T,V,M,M_over_I,x)</span>
+</pre><pre class="codeoutput">
+Fk1 =
+
+ -574.0741
+
+
+Fk2 =
+
+   74.0741
+
+
+force_required =
+
+  792.9500
+
+</pre><h2>Critcal Points and Fatigue Introduction<a name="3"></a></h2><p>The critical points were found to be at,</p><div><ol><li>Retaining Ring at Bearing F</li><li>Shoulder at Bearing F</li><li>Max Moment</li><li>Retaining Ring at Bearing G</li><li>Shoulder at Bearing G</li></ol></div><p>The safety factors found at the gid-head keys were found to be larger then (4) and (5) and so they were omitted.</p><h2>Critcal Points and Fatigue<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Setup</span>
+Sut = 690; <span class="comment">% MPa</span>
+
+<span class="comment">% Torque calcs, this applies to all critical points</span>
+n = 1000; <span class="comment">% rpm</span>
+w = 1000 * pi/30; <span class="comment">% rad/s</span>
+H = 1000; <span class="comment">% W</span>
+Tmid = H/w; <span class="comment">% Nm</span>
+TauMid = 16*Tmid/(pi*d1^3) / 10^6; <span class="comment">% MPa, mid range only</span>
+
+<span class="comment">% Critical Points</span>
+
+<span class="comment">% 1) Retaining Ring at Bearing F</span>
+
+<span class="comment">% Finding Moment at Critical Point</span>
+loc1 = B - bearing_width*100/2;
+moment1 = M(floor(loc1/err));
+
+<span class="comment">% Finding Stress Concentration Factors</span>
+r = 0.1; <span class="comment">% mm</span>
+Kt = 4; Kts = 2.5; <span class="comment">% From Table A15-15</span>
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+<span class="comment">% Finding Stresses</span>
+Srev = 32*moment1/(pi*d1^3) / 10^6; <span class="comment">% MPa, fully reversible</span>
+
+<span class="comment">% Calculating Safety Factors</span>
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+<span class="comment">% 2) Shoulder at Bearing F</span>
+
+<span class="comment">% Finding Moment at Critical Point</span>
+loc2 = B + bearing_width*100/2;
+moment2 = M(floor(loc2/err));
+
+<span class="comment">% Finding Stress Concentration Factors</span>
+r = 0.75; <span class="comment">% mm</span>
+Kt = 2.5; Kts = 1.8; <span class="comment">% From Table A15-8 and A15-9</span>
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+<span class="comment">% Finding Stresses</span>
+Srev = 32*moment2/(pi*d1^3) / 10^6; <span class="comment">% MPa, fully reversible</span>
+
+<span class="comment">% Calculating Safety Factors</span>
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+<span class="comment">% 3) Max Bending Moment</span>
+
+<span class="comment">% Finding Moment and Critical Point</span>
+max_moment = max(M);
+critical_location = x((find(M==max(M))));
+
+<span class="comment">% Finding Stresses</span>
+Srev = 32*max_moment/(pi*d1^3) / 10^6; <span class="comment">% MPa, fully reversible</span>
+
+<span class="comment">% Calculating Safety Factors</span>
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, 1, 1)
+<span class="comment">% Assuming no stress concentrations on the shaft where there are no components</span>
+
+<span class="comment">% 4) Retaining Ring at Bearing G</span>
+loc4 = C + bearing_width*100/2;
+moment4 = M(floor(loc4/err));
+
+<span class="comment">% Finding Stress Concentration Factors</span>
+r = 0.1; <span class="comment">% mm</span>
+Kt = 4; Kts = 2.5; <span class="comment">% From Table A15-15</span>
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+<span class="comment">% Finding Stresses</span>
+Srev = 32*moment4/(pi*d1^3) / 10^6; <span class="comment">% MPa, fully reversible</span>
+
+<span class="comment">% Calculating Safety Factors</span>
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+<span class="comment">% 5) Shoulder at Bearing G</span>
+loc5 = C - bearing_width*100/2;
+moment5 = M(floor(loc5/err));
+
+<span class="comment">% Finding Stress Concentration Factors</span>
+r = 0.75; <span class="comment">% mm</span>
+Kt = 2.5; Kts = 1.8; <span class="comment">% From Table A15-8 and A15-9</span>
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+<span class="comment">% Finding Stresses</span>
+Srev = 32*moment5/(pi*d1^3) / 10^6; <span class="comment">% MPa, fully reversible</span>
+
+<span class="comment">% Calculating Safety Factors</span>
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+</pre><pre class="codeoutput">
+nGoodman =
+
+    7.7947
+
+
+nGerber =
+
+    9.3077
+
+
+nGoodman =
+
+    7.9681
+
+
+nGerber =
+
+    9.3933
+
+
+nGoodman =
+
+   15.5438
+
+
+nGerber =
+
+   18.7153
+
+
+nGoodman =
+
+   35.3139
+
+
+nGerber =
+
+   35.3139
+
+
+nGoodman =
+
+   36.2363
+
+
+nGerber =
+
+   38.0889
+
+</pre><h2>Performance Metric<a name="5"></a></h2><pre class="codeinput"><span class="comment">% density = 7.85*100^3/1000; % kg/m^3</span>
+<span class="comment">% volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);</span>
+<span class="comment">% volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);</span>
+<span class="comment">% volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3</span>
+<span class="comment">% V = [volume1 volume2 volume3];</span>
+<span class="comment">% wieght = V .* density .* g;</span>
+<span class="comment">% total_weight = sum(wieght);</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Description
+% This script will analyze the shaft EFGJ and calculates/displays the following:
+%
+% * Shear, Torque and Moment Diagrams
+% * Critical Points and Stresses
+% * Fatigue Safety Factors (Gerber, Goodman and First Cycle Yield)
+% * Cost and mass for Performance Metric
+%
+% Several helper functions are called to help calculate these values. The functions used are listed below (see section in Appendix for more detail):
+%
+% * find_sf, calculates the singularity functions and represents them as vectors
+% * plot_sf, plots the singularity functions
+% * fatigue_stress_concentration, calculates Kf and Kfs based on Kt, Kts and uses the Neuber equation and constant in the evaulation
+% * fatigueLife, calculates the Gerber, Goodman and first cycle yield safety factors
+
+%% Setup
+
+% Define location of A,B,C in cm
+% Found based on maintence condition
+A = 7; B = 11; C = 38;
+
+% Given
+k = 37.8 * 1000; % N/m
+L = 40; % shaft length
+d1 = 20/1000; % m
+d2 = 30/1000; % m
+bearing_width = 14/1000; % m
+g = 9.81;
+
+% Creating position vector
+n_step = 1000;
+x = linspace(0,L,n_step);
+vector_conv = L/n_step;
+
+%% Singularity Functions
+
+% Finding the reactions due to the radial force of the pulley
+Fr = 500; % N
+[T,V,M,M_over_I] = find_sf(Fr,A,B,C,x); % Function to find the singularity functions as vectors
+
+% Optional: Plot singularity functions
+% plot_sf(T,V,M,M_over_I,x)
+
+%% Critcal Points and Fatigue Introduction
+% The critical points were found to be at,
+%
+% # Retaining Ring at Bearing F
+% # Shoulder at Bearing F
+% # Max Moment
+% # Retaining Ring at Bearing G
+% # Shoulder at Bearing G
+%
+% The safety factors found at the gid-head keys were found to be larger then (4) and (5) and so they were omitted.
+
+%% Critcal Points and Fatigue
+
+% Setup
+Sut = 690; % MPa
+
+% Torque calcs, this applies to all critical points
+n = 1000; % rpm
+w = 1000 * pi/30; % rad/s
+H = 1000; % W
+Tmid = H/w; % Nm
+TauMid = 16*Tmid/(pi*d1^3) / 10^6; % MPa, mid range only
+
+% Critical Points
+
+% 1) Retaining Ring at Bearing F
+
+% Finding Moment at Critical Point
+loc1 = B - bearing_width*100/2;
+moment1 = M(floor(loc1/err));
+
+% Finding Stress Concentration Factors
+r = 0.1; % mm
+Kt = 4; Kts = 2.5; % From Table A15-15
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+% Finding Stresses
+Srev = 32*moment1/(pi*d1^3) / 10^6; % MPa, fully reversible
+
+% Calculating Safety Factors
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+% 2) Shoulder at Bearing F
+
+% Finding Moment at Critical Point
+loc2 = B + bearing_width*100/2;
+moment2 = M(floor(loc2/err));
+
+% Finding Stress Concentration Factors
+r = 0.75; % mm
+Kt = 2.5; Kts = 1.8; % From Table A15-8 and A15-9
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+% Finding Stresses
+Srev = 32*moment2/(pi*d1^3) / 10^6; % MPa, fully reversible
+
+% Calculating Safety Factors
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+% 3) Max Bending Moment
+
+% Finding Moment and Critical Point
+max_moment = max(M);
+critical_location = x((find(M==max(M))));
+
+% Finding Stresses
+Srev = 32*max_moment/(pi*d1^3) / 10^6; % MPa, fully reversible
+
+% Calculating Safety Factors
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, 1, 1) 
+% Assuming no stress concentrations on the shaft where there are no components
+
+% 4) Retaining Ring at Bearing G
+loc4 = C + bearing_width*100/2;
+moment4 = M(floor(loc4/err));
+
+% Finding Stress Concentration Factors
+r = 0.1; % mm
+Kt = 4; Kts = 2.5; % From Table A15-15
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+% Finding Stresses
+Srev = 32*moment4/(pi*d1^3) / 10^6; % MPa, fully reversible
+
+% Calculating Safety Factors
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+% 5) Shoulder at Bearing G
+loc5 = C - bearing_width*100/2;
+moment5 = M(floor(loc5/err));
+
+% Finding Stress Concentration Factors
+r = 0.75; % mm
+Kt = 2.5; Kts = 1.8; % From Table A15-8 and A15-9
+Kf = fatigue_stress_concentration(Kt,r,Sut,1);
+Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
+
+% Finding Stresses
+Srev = 32*moment5/(pi*d1^3) / 10^6; % MPa, fully reversible
+
+% Calculating Safety Factors
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+
+%% Performance Metric
+
+% density = 7.85*100^3/1000; % kg/m^3
+% volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);
+% volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);
+% volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
+% V = [volume1 volume2 volume3];
+% wieght = V .* density .* g;
+% total_weight = sum(wieght);
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
