@@ -46,8 +46,12 @@ critical_location = x((find(M==max_bending_moment))); % 40/1000 is derived from 
 %%%%%%%%%%%%%%%%%%%
 
 density = 7.85*100^3/1000; % kg/m^3
-volume = (pi * (d1)^2/4)*(B/100+bearing_width/2) + (pi * (d2)^2/4)*((C-B)/100 - bearing_width) + (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
-weight = density*volume*g
+volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);
+volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);
+volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
+V = [volume1 volume2 volume3];
+wieght = V .* density .* g;
+total_weight = sum(wieght)
 
 
 
