@@ -1,4 +1,4 @@
-function [V,M,M_over_I] = find_sf(F,A,B,C,x)
+function [T,V,M,M_over_I] = find_sf(F,A,B,C,x)
 	% Find Spring Forces, with A,B and C in cm
 	% F is the force applied to the shaft
 	[Fk1, Fk2] = spring_forces(F,A,B,C);
@@ -9,6 +9,10 @@ function [V,M,M_over_I] = find_sf(F,A,B,C,x)
 	bearing_width = 14/1000; % m
 	d1 = 20; % mm
 	d2 = 30; % mm
+	% Torque calcs
+	n = 1000; % rpm
+	w = 1000 * pi/30; % rad/s
+	H = 1000; % W
 
 	% Mass moment of Interia
 	I1 = pi * (d1/1000)^4/64;
@@ -26,9 +30,13 @@ function [V,M,M_over_I] = find_sf(F,A,B,C,x)
 	% Creating a singularity function for the first step due to the change of I
 	y7 = sf_step(x,B+bearing_width/2); % step for first shoulder
 
+	% Creating a singularity function for torque
+	y8 = sf_step(x,A); y9 = sf_step(x,L);
+
 	% Complete Singularity 
 	V = F*y1 + Fk1*y2 + Fk2*y3;
 	M = F*y4 + Fk1*y5 + Fk2*y6;
+	T = H/w*y8 - H/w*y9;
 	
 	% Creating slopes for singularity function
 	slope1 = max(M)/(I1 * (B-A));
