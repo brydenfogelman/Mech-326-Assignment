@@ -1,10 +1,16 @@
+%% Function: check_spring_condition
 % Find the force required to perform maintence on the shaft.
-% Params: The location of the two bearings
-%	B - Location of the bearing close to the pulley relative to point E
-%	C - Location of the bearing close to the coupling relative to E
-%	Fk1 - force at the first bearing due to the spring
-%	Fk2 - force at the second bearing due to the spring
-% Returns: Force Required to Lift the pulley ten centimeters for 
+% Parameters:
+%
+% * B - Location of the bearing close to the pulley relative to point E
+% * C - Location of the bearing close to the coupling relative to E
+% * Fk1 - force at the first bearing due to the spring
+% * Fk2 - force at the second bearing due to the spring
+%
+% Returns - Force Required to Lift the pulley ten centimeters for maintence
+
+%%% Code
+
 function force_required = check_spring_condition(B,C,Fk1,Fk2)
 	% Given
 	shaft_length = 40; % cm
@@ -31,6 +37,7 @@ function force_required = check_spring_condition(B,C,Fk1,Fk2)
 	y1 = y1 + yi1;
 	y2 = y2 - yi2;
 
+	% F = Fk1 + Fk2, where Fk = k * deflection
 	force_required = k*(y2 + y1);
 end
 	

@@ -1,4 +1,4 @@
-%% Description
+%% Introduction
 % This script will analyze the shaft EFGJ and calculates/displays the following
 %
 % * Shear, Torque and Moment Diagrams
@@ -14,6 +14,7 @@
 % * fatigueLife, calculates the Gerber, Goodman and first cycle yield safety factors
 
 %% Setup
+% Defining the location of the bearings and assigning variables to values given. 
 
 % Define location of A,B,C in cm
 % Found based on maintence condition
@@ -39,9 +40,9 @@ Fr = 500; % N
 [T,V,M,M_over_I] = find_sf(Fr,A,B,C,x); % Function to find the singularity functions as vectors
 
 % Optional: Plot singularity functions
-% plot_sf(T,V,M,M_over_I,x)
+plot_sf(T,V,M,M_over_I,x)
 
-%% Critcal Points and Fatigue Introduction
+%% Critcal Points and Fatigue
 % The critical points were found to be at,
 %
 % # Retaining Ring at Bearing F
@@ -49,10 +50,10 @@ Fr = 500; % N
 % # Max Moment
 % # Retaining Ring at Bearing G
 % # Shoulder at Bearing G
+% # Gib key at pulley
 %
-% The safety factors found at the gid-head keys were found to be larger then (4) and (5) and so they were omitted.
-
-%% Critcal Points and Fatigue
+% The moments at each critical location were take from the M vector. Bending stress is considered to be fully reversible.
+%The torque along the shaft creates a mid range shear stress. All Kt and Kts values were found from tables in Shigleys.
 
 % Setup
 Sut = 690; % MPa
@@ -82,7 +83,8 @@ Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
 Srev = 32*moment1/(pi*d1^3) / 10^6; % MPa, fully reversible
 
 % Calculating Safety Factors
-fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+display('Retaining Ring at Bearing F')
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, Kf, Kfs)
 
 % 2) Shoulder at Bearing F
 
@@ -100,7 +102,8 @@ Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
 Srev = 32*moment2/(pi*d1^3) / 10^6; % MPa, fully reversible
 
 % Calculating Safety Factors
-fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+display('Shoulder at Bearing F')
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, Kf, Kfs)
 
 % 3) Max Bending Moment
 
@@ -112,7 +115,8 @@ critical_location = x((find(M==max(M))));
 Srev = 32*max_moment/(pi*d1^3) / 10^6; % MPa, fully reversible
 
 % Calculating Safety Factors
-fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, 1, 1) 
+display('Max Bending Moment')
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, 1, 1) 
 % Assuming no stress concentrations on the shaft where there are no components
 
 % 4) Retaining Ring at Bearing G
@@ -129,7 +133,8 @@ Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
 Srev = 32*moment4/(pi*d1^3) / 10^6; % MPa, fully reversible
 
 % Calculating Safety Factors
-fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+display('Retaining Ring at Bearing G')
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, Kf, Kfs)
 
 % 5) Shoulder at Bearing G
 loc5 = C - bearing_width*100/2;
@@ -145,7 +150,17 @@ Kfs = fatigue_stress_concentration(Kts,r,Sut,0);
 Srev = 32*moment5/(pi*d1^3) / 10^6; % MPa, fully reversible
 
 % Calculating Safety Factors
-fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1, Kf, Kfs)
+display('Shoulder at Bearing F')
+fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, Kf, Kfs)
+
+% 6) Gib Key at Pulley
+Srev = 0;
+% Assuming q=0 so Kf=Kt
+Kt = 2.14;
+Kts = 3;
+
+display('Gib Key at Pulley')
+fatigueLife(Sut, 0, 0, TauMid, 2, d1*1000, Kt, Kts)
 
 %% Performance Metric
 

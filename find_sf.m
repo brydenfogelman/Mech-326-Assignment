@@ -1,3 +1,19 @@
+%% Function: find_sf
+% Computes the Singularity functions for T,V,M and M/I for the bottom shaft. 
+%Uses helper functions to mimic the unit step and slope singularity functions (ie, <x-a>)
+%
+% Parameters
+%
+% * F - Force Applied to the shaft
+% * A - location of the pulley
+% * B - location of Bearing F
+% * C - location of Bearing G
+% * x - position vector, represents multiple locations on the shaft
+%
+% Returns - vectors representing the singularity functions
+
+%%% Code
+
 function [T,V,M,M_over_I] = find_sf(F,A,B,C,x)
 	% Find Spring Forces, with A,B and C in cm
 	% F is the force applied to the shaft

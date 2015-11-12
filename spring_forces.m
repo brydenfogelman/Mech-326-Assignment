@@ -1,4 +1,4 @@
-%% Function Description: spring_forces
+%% Function: spring_forces
 % Finds the reaction forces at bearing F and G due to the springs.
 %
 % Parameters:
@@ -30,8 +30,8 @@ function [Fk1, Fk2] = spring_forces(F,A,B,C)
 	% Row 1 - Sum of moments about the end of the shaft
 	A = [x2 -x1 F*x3; 1 -1 F];
 	X = rref(A);
-	Fk1 = -X(1,3)
-	Fk2 = X(2,3)
+	Fk1 = -X(1,3);
+	Fk2 = X(2,3);
 
 	% Force Required to lift the shaft for maintence
 	force_required = check_spring_condition(B,C,Fk1,Fk2)

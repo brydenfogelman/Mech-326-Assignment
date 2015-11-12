@@ -1,4 +1,4 @@
-%% Function Description: fatigueLife
+%% Function: fatigueLife
 %
 % This script calculates the infinite lift safety factor of a rotating 
 %cylindrical shaft Usig the Modified Goodman Failure Criteria. 
@@ -76,6 +76,6 @@ nYield = Sy / (SaVM + SmidVM)
 
 nGoodman = ( (SaVM / Se) + (SmidVM/Sut) ) ^ (-1)
 
-nGerber = 0.5*((Sut/SmidVM)^2)*(SaVM/Se)*(-1 + sqrt(1+( (2*SmidVM*Se) / (Sut*SaVM))^2))
+nGerber = 0.5*((Sut/SmidVM)^2)*(SaVM/Se)*(-1 + sqrt(1+( (2*SmidVM*Se) / (Sut*SaVM))^2));
 
 end

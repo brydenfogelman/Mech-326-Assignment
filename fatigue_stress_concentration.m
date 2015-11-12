@@ -1,4 +1,4 @@
-%% Function Description: fatigue_stress_concentration
+%% Function: fatigue_stress_concentration
 %
 % Finds Kfs and Kf using the Neuber Equation.
 %

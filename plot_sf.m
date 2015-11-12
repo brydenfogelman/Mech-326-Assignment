@@ -1,4 +1,4 @@
-%% Function Description: plot_sf
+%% Function: plot_sf
 %
 % Plots the Shear, Moment, Torque and M/I diagrams.
 % Parameters - singularity functions for T,V,M and M/I; x is the position vector
