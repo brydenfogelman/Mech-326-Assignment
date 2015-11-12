@@ -13,9 +13,7 @@
 % * Fk1 - spring (reaction) force at Bearing F
 % * Fk2 - spring (reaction) force at Bearing F
 %
-% Equations are derived from sum of forces in the veritcal direction and from a sum of moments about the point J (coulpling/end of shaft)
-%The equations are Fk1 - Fk2 = F and Fk1 * x1 - Fk2 * x2 = F * x3.
-%The check_spring_condition function is used to determine if the workers are able to perform maintence on the shaft. 
+% Equations are derived from sum of forces in the veritcal direction and from a sum of moments about the point J (coulpling/end of shaft). The equations are Fk1 - Fk2 = F and Fk1 * x1 - Fk2 * x2 = F * x3. The check_spring_condition function is used to determine if the workers are able to perform maintence on the shaft. 
 
 %%% Code
 

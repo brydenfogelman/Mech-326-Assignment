@@ -1,7 +1,5 @@
 %% Function: find_sf
-% Computes the Singularity functions for T,V,M and M/I for the bottom shaft. 
-%Uses helper functions to mimic the unit step and slope singularity functions (ie, <x-a>)
-%
+% Computes the Singularity functions for T,V,M and M/I for the bottom shaft. Uses helper functions to mimic the unit step and slope singularity functions (ie, <x-a>).
 % Parameters
 %
 % * F - Force Applied to the shaft

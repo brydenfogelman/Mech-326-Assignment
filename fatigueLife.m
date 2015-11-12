@@ -1,18 +1,5 @@
 %% Function: fatigueLife
-%
-% This script calculates the infinite lift safety factor of a rotating 
-%cylindrical shaft Usig the Modified Goodman Failure Criteria. 
-%
-%All units are in MPA.
-%
-% Sut is the ultimate tensile strength, Smax is the Maximum bending stress,
-% Smin is the minimum bending stress. NO Axial Stress. TauMax is the shear
-% stress due to torque from the motor. 
-%
-%Kf and Kfs are fatigue stress concentrations for bending and shear.
-%
-% Finish should be 1 (ground), 2 (machined or CD), 3 (Hot-Rolled),
-% 4 (As-Forged).  
+% This script calculates the infinite lift safety factor of a rotating cylindrical shaft Usig the Modified Goodman Failure Criteria. All units are in MPA. Sut is the ultimate tensile strength, Smax is the Maximum bending stress, Smin is the minimum bending stress. NO Axial Stress. TauMax is the shear stress due to torque from the motor. Kf and Kfs are fatigue stress concentrations for bending and shear. Finish should be 1 (ground), 2 (machined or CD), 3 (Hot-Rolled), 4 (As-Forged).  
 
 %%% Code
 

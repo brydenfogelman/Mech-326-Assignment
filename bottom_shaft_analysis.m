@@ -1,5 +1,5 @@
 %% Introduction
-% This script will analyze the shaft EFGJ and calculates/displays the following
+% This script will analyze the shaft EFGJ and calculates/displays the following,
 %
 % * Shear, Torque and Moment Diagrams
 % * Critical Points and Stresses
@@ -39,6 +39,7 @@ vector_conv = L/n_step;
 Fr = 500; % N
 [T,V,M,M_over_I] = find_sf(Fr,A,B,C,x); % Function to find the singularity functions as vectors
 
+display('Force Required to perform maintence on the shaft (Requirement < 800 N).')
 % Optional: Plot singularity functions
 plot_sf(T,V,M,M_over_I,x)
 
@@ -162,15 +163,15 @@ Kts = 3;
 display('Gib Key at Pulley')
 fatigueLife(Sut, 0, 0, TauMid, 2, d1*1000, Kt, Kts)
 
-%% Performance Metric
+%% Extra Calculations
 
-% density = 7.85*100^3/1000; % kg/m^3
-% volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);
-% volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);
-% volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
-% V = [volume1 volume2 volume3];
-% wieght = V .* density .* g;
-% total_weight = sum(wieght);
+density = 7.85*100^3/1000; % kg/m^3
+volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);
+volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);
+volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
+V = [volume1 volume2 volume3];
+wieght = V .* density .* g;
+total_weight = sum(wieght);
 
 
 
