@@ -7,6 +7,8 @@ function fatigueLife(Sut, Smax, Smin, TauMid, finish, diam, Kf, Kfs)
 
 Sy = 580; % MPa
 
+Max_bend = Smax*Kf
+Max_shear = TauMid*Kfs
 % Initialize Parameters
 a = 0;
 b = 0;
@@ -20,8 +22,8 @@ Smid = (Smax+Smin)/2;
 Salt = abs(Smax-Smin)/2;
 
 %Von Mises Alternating and Midrange stress 
-SaVM = Kf*Salt;
-SmidVM = sqrt( (Kf*Smid)^2 + 3*(TauMid*Kfs)^2);
+SaVM = Kf*Salt
+SmidVM = sqrt( (Kf*Smid)^2 + 3*(TauMid*Kfs)^2)
 
 %Switch case takes material finish code and sets parameters for Surface
 %Finish. 
@@ -54,9 +56,9 @@ Ka = a*Sut^b;
 
 
 if (Sut > 1400)  
-    Se = 700*Ka*Kb;
+    Se = 700*Ka*Kb
 else
-    Se = 0.5*Sut*Ka*Kb;
+    Se = 0.5*Sut*Ka*Kb
 end
 
 nYield = Sy / (SaVM + SmidVM)

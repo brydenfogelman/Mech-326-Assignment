@@ -1,4 +1,4 @@
-%% Introduction
+%% Bottom Shaft Analysis
 % This script will analyze the shaft EFGJ and calculates/displays the following,
 %
 % * Shear, Torque and Moment Diagrams
@@ -155,23 +155,36 @@ display('Shoulder at Bearing F')
 fatigueLife(Sut, Srev, -Srev, TauMid, 2, d1*1000, Kf, Kfs)
 
 % 6) Gib Key at Pulley
-Srev = 0;
-% Assuming q=0 so Kf=Kt
-Kt = 2.14;
-Kts = 3;
+% Srev = 0;
+% % Assuming q=0 so Kf=Kt
+% Kt = 2.14;
+% Kts = 3;
 
-display('Gib Key at Pulley')
-fatigueLife(Sut, 0, 0, TauMid, 2, d1*1000, Kt, Kts)
+% display('Gib Key at Pulley')
+% fatigueLife(Sut, 0, 0, TauMid, 2, d1*1000, Kt, Kts)
 
 %% Extra Calculations
+
+
 
 density = 7.85*100^3/1000; % kg/m^3
 volume1 = (pi * (d1)^2/4)*(B/100+bearing_width/2);
 volume2 = (pi * (d2)^2/4)*((C-B)/100 - bearing_width);
 volume3 = (pi * (d1)^2/4)*((L-C)/100+bearing_width/2); % m^3
 V = [volume1 volume2 volume3];
-wieght = V .* density .* g;
-total_weight = sum(wieght);
+mass = V .* density;
+
+raw_material = (pi * d2^2/4*L/100)*density
+machined_mass = ((pi * (d2)^2/4 - pi * (d1)^2/4)*(B/100+bearing_width/2) + (pi * (d2)^2/4 - pi * (d1)^2/4)*((L-C)/100+bearing_width/2))*density
+
+total_mass = raw_material - machined_mass
+
+cost_raw = 13 * raw_material
+cost_machine = 50 * machined_mass
+cost_raw+cost_machine
+
+metric = ( (cost_raw+cost_machine+240)*total_mass )^-1
+
 
 
 
